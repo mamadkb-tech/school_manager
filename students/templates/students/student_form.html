@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} · School Manager{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+            <div class="field">
+                {{ field.label_tag }}
+                {{ field }}
+                {{ field.errors }}
+            </div>
+        {% endfor %}
+        <button type="submit">Enregistrer</button>
+        {% if student %}
+            <a href="{% url 'students:detail' student.id %}">Annuler</a>
+        {% else %}
+            <a href="{% url 'students:list' %}">Annuler</a>
+        {% endif %}
+    </form>
+{% endblock %}

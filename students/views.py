@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -6,6 +7,8 @@ from .forms import StudentForm
 from .models import Student
 
 
+@login_required
+@permission_required("students.view_student", raise_exception=True)
 def student_list(request):
     query = request.GET.get("q", "")
     students = Student.objects.all()
@@ -17,18 +20,24 @@ def student_list(request):
     return render(request, "students/student_list.html", context)
 
 
+@login_required
+@permission_required("students.view_student", raise_exception=True)
 def student_detail(request, id):
     student = get_object_or_404(Student, id=id)
     context = {"student": student}
     return render(request, "students/student_detail.html", context)
 
 
+@login_required
+@permission_required("students.view_student", raise_exception=True)
 def students_by_class(request, classe):
     students = Student.objects.filter(classe=classe)
     context = {"students": students}
     return render(request, "students/student_list.html", context)
 
 
+@login_required
+@permission_required("students.add_student", raise_exception=True)
 def student_create(request):
     if request.method == "POST":
         form = StudentForm(request.POST)
@@ -42,6 +51,8 @@ def student_create(request):
     return render(request, "students/student_form.html", context)
 
 
+@login_required
+@permission_required("students.change_student", raise_exception=True)
 def student_update(request, id):
     student = get_object_or_404(Student, id=id)
     if request.method == "POST":
@@ -58,6 +69,8 @@ def student_update(request, id):
     return render(request, "students/student_form.html", context)
 
 
+@login_required
+@permission_required("students.delete_student", raise_exception=True)
 def student_delete(request, id):
     student = get_object_or_404(Student, id=id)
     if request.method == "POST":

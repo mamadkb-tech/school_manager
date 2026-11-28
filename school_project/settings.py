@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'pages',
     'students',
     'teachers',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +129,6 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+# Authentification
+LOGIN_URL = "accounts:login"
